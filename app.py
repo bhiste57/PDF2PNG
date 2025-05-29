@@ -30,13 +30,13 @@ def upload():
     images[0].save(img_io, format='PNG')
     img_io.seek(0)
 
+    # ✅ On renvoie uniquement le fichier image, pas de redirect
     return send_file(
         img_io,
         mimetype='image/png',
         as_attachment=True,
         download_name='page1.png'
     )
-
 
 if __name__ == '__main__':
     app.run(debug=True)
