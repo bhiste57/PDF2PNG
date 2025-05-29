@@ -6,7 +6,12 @@ from io import BytesIO
 app = Flask(__name__)
 
 # Indique ici le chemin vers ton dossier poppler/bin
-POPPLER_PATH = r"C:\Users\bhiste\Release-24.08.0-0\poppler-24.08.0\Library\bin"
+# manually
+# POPPLER_PATH = r"C:\Users\bhiste\Release-24.08.0-0\poppler-24.08.0\Library\bin"
+# automatically
+base_dir = os.path.dirname(os.path.abspath(__file__))
+POPPLER_PATH = os.path.join(base_dir, "poppler", "Library", "bin")
+
 
 @app.route('/')
 def index():
