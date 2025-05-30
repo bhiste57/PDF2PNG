@@ -22,29 +22,37 @@ def index():
 
 @app.route('/upload', methods=['POST'])
 def upload():
-    pdf_file = request.files['pdf_file']
-    pdf_bytes = pdf_file.read()
+    try:
+        print("📥 Fichier reçu : ", request.files)
+        pdf_file = request.files['pdf_file']
+        pdf_bytes = pdf_file.read()
 
-    kwargs = {
-        "dpi": 300,
-        "first_page": 1,
-        "last_page": 1
-    }
-    if POPPLER_PATH:
-        kwargs["poppler_path"] = POPPLER_PATH
+        kwargs = {
+            "dpi": 300,
+            "first_page": 1,
+            "last_page": 1
+        }
+        if POPPLER_PATH:
+            kwargs["poppler_path"] = POPPLER_PATH
 
-    images = convert_from_bytes(pdf_bytes, **kwargs)
+        print("🔧 Conversion avec kwargs :", kwargs)
+        images = convert_from_bytes(pdf_bytes, **kwargs)
 
-    img_io = BytesIO()
-    images[0].save(img_io, format='PNG')
-    img_io.seek(0)
+        img_io = BytesIO()
+        images[0].save(img_io, format='PNG')
+        img_io.seek(0)
 
-    return send_file(
-        img_io,
-        mimetype='image/png',
-        as_attachment=True,
-        download_name='page1.png'
-    )
+        print("✅ Conversion OK")
+        return send_file(
+            img_io,
+            mimetype='image/png',
+            as_attachment=True,
+            download_name='page1.png'
+        )
+    except Exception as e:
+        print("❌ Erreur pendant le traitement :", str(e))
+        return "Erreur interne", 500
+
 
 
 if __name__ == '__main__':
