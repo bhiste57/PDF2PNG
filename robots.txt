@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://pdf2png-1.onrender.com/sitemap.xml
