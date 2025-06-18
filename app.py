@@ -26,6 +26,8 @@ def upload():
         print("📥 Fichier reçu : ", request.files)
         pdf_file = request.files['pdf_file']
         pdf_bytes = pdf_file.read()
+        
+        
 
         kwargs = {
             "dpi": 300,
@@ -47,7 +49,8 @@ def upload():
             img_io,
             mimetype='image/png',
             as_attachment=True,
-            download_name='page1.png'
+            download_name= pdf_file.filename.replace(".pdf", ".png")
+
         )
     except Exception as e:
         print("❌ Erreur pendant le traitement :", str(e))
